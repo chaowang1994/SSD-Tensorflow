@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67127fbb-4959-485d-9101-466bce0b6412" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SSD-Tensorflow.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nets/ssd_vgg_300.py" beforeDir="false" afterPath="$PROJECT_DIR$/nets/ssd_vgg_300.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="19" column="28" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="28" />
+            <state relative-caret-position="-384">
+              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="e#17#26#0" expanded="true" />
               </folding>
@@ -31,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="806" column="3" lean-forward="true" selection-start-line="806" selection-start-column="3" selection-end-line="806" selection-end-column="3" />
+            <state relative-caret-position="83">
+              <caret line="771" column="13" lean-forward="true" selection-start-line="771" selection-start-column="13" selection-end-line="771" selection-end-column="13" />
               <folding>
                 <element signature="e#2115#2126#0" expanded="true" />
               </folding>
@@ -44,35 +40,8 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tf_extended/tensors.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="42" column="34" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/preprocessing/tf_image.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5344">
-              <caret line="183" column="34" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-end-line="26" />
-            </state>
-          </provider>
         </entry>
       </file>
     </leaf>
@@ -86,6 +55,8 @@
       <find>ssd_size_bounds_to_values</find>
       <find>ssd_feat_shapes_from_net</find>
       <find>ssd_arg_scope</find>
+      <find>size</find>
+      <find>normal</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -189,12 +160,12 @@
       <workItem from="1555314995851" duration="123000" />
       <workItem from="1555315152854" duration="7737000" />
       <workItem from="1555331138674" duration="4479000" />
-      <workItem from="1555342510887" duration="9800000" />
+      <workItem from="1555342510887" duration="13652000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22851000" />
+    <option name="totallyTimeSpent" value="26703000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
@@ -240,33 +211,6 @@
     <entry file="file://$PROJECT_DIR$/eval_ssd_network.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing/tf_image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5344">
-          <caret line="183" column="34" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="28" />
-          <folding>
-            <element signature="e#17#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/tf_extended/tensors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
@@ -276,10 +220,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="806" column="3" lean-forward="true" selection-start-line="806" selection-start-column="3" selection-end-line="806" selection-end-column="3" />
+        <state relative-caret-position="83">
+          <caret line="771" column="13" lean-forward="true" selection-start-line="771" selection-start-column="13" selection-end-line="771" selection-end-column="13" />
           <folding>
             <element signature="e#2115#2126#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing/tf_image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="183" column="34" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-384">
+          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+          <folding>
+            <element signature="e#17#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

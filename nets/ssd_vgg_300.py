@@ -358,13 +358,20 @@ def ssd_anchor_one_layer(img_shape,
     # Compute relative height and width.
     # Tries to follow the original implementation of SSD for the order.
     num_anchors = len(sizes) + len(ratios)
+    #anchors的数量
+    #feature map每个点对应的default box 的数量
+
     h = np.zeros((num_anchors, ), dtype=dtype)
     w = np.zeros((num_anchors, ), dtype=dtype)
+
+    #长宽比例为 1 的 default box，高和宽都为 21/300
     # Add first anchor boxes with ratio=1.
     h[0] = sizes[0] / img_shape[0]
     w[0] = sizes[0] / img_shape[1]
     di = 1
     if len(sizes) > 1:
+        # 长宽比例为1的default box额外添加一个尺寸为sqrt(Sk*Sk+1)的default box
+        # 宽高都为sqrt(21*45)
         h[1] = math.sqrt(sizes[0] * sizes[1]) / img_shape[0]
         w[1] = math.sqrt(sizes[0] * sizes[1]) / img_shape[1]
         di += 1
@@ -427,8 +434,10 @@ def ssd_multibox_layer(inputs,
         net = custom_layers.l2_normalization(net, scaling=True)
     # Number of anchors.
     num_anchors = len(sizes) + len(ratios)
+    # 此feature map每个位置对应的default box个数
+    # len(size)表示长宽比例为1的的个数
+    # len(ratios)表示其它长宽比例
 
-    # Location.
     num_loc_pred = num_anchors * 4
     loc_pred = slim.conv2d(net, num_loc_pred, [3, 3], activation_fn=None,
                            scope='conv_loc')
