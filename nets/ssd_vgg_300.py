@@ -62,7 +62,7 @@ slim = tf.contrib.slim
 
 
 # =========================================================================== #
-# SSD class definition.
+# SSD class definition. 命名元组
 # =========================================================================== #
 SSDParams = namedtuple('SSDParameters', ['img_shape',
                                          'num_classes',
@@ -97,8 +97,10 @@ class SSDNet(object):
         no_annotation_label=21,
         feat_layers=['block4', 'block7', 'block8', 'block9', 'block10', 'block11'],
         feat_shapes=[(38, 38), (19, 19), (10, 10), (5, 5), (3, 3), (1, 1)],
-        anchor_size_bounds=[0.15, 0.90],
+        anchor_size_bounds=[0.15, 0.90],  # min and max scale of the default boxes for each feature map
+        # 论文里的参数是下边这个, 见公式四
         # anchor_size_bounds=[0.20, 0.90],
+        # 代码的 anchor_sizes 不是计算出来的，而是直接给了长宽,可以根据经验给定
         anchor_sizes=[(21., 45.),
                       (45., 99.),
                       (99., 153.),
@@ -117,6 +119,10 @@ class SSDNet(object):
                        [2, .5, 3, 1./3],
                        [2, .5],
                        [2, .5]],
+        # 这个几个feature -map的大小就是根据网络结构算出来的，
+        # 参考这个 feat_shapes=[(38, 38), (19, 19), (10, 10), (5, 5), (3, 3), (1, 1)]
+        # block4 的特征图大小就是 5, 5*64 = 320, block5 的特征图大小就是 3, 3*100 = 300, 近似等于300
+        # SSD-512 类似，这个地方需要计算好自己改。anchor_steps也是对应的，就是特征图的缩放倍数，也是对对应的，比如：8×64=512,16×32=512等等。不能随便设置
         anchor_steps=[8, 16, 32, 64, 100, 300],
         anchor_offset=0.5,
         normalizations=[20, -1, -1, -1, -1, -1],
@@ -294,7 +300,7 @@ def ssd_feat_shapes_from_net(predictions, default_shapes=None):
             shape = l.shape
         else:
             shape = l.get_shape().as_list()
-        shape = shape[1:4]
+        shape = shape[1:4]  # HWC
         # Problem: undetermined shape...
         if None in shape:
             return default_shapes
@@ -331,13 +337,23 @@ def ssd_anchor_one_layer(img_shape,
     # y = (y.astype(dtype) + offset) / feat_shape[0]
     # x = (x.astype(dtype) + offset) / feat_shape[1]
     # Weird SSD-Caffe computation using steps values...
+    # 首先下面生成网格，这样实际就代表了特征图每个点的坐标
+    # y, x 的形状都是 feat_shape[0]*feat_shape[1]的二维形状
     y, x = np.mgrid[0:feat_shape[0], 0:feat_shape[1]]
+
+    # 即将特征图坐标在原图中归一化，同时加上一个偏移offset=0.5,因为是框的中心，每个框里面相当于每
+    # 个点间隔是1,所以框终点需要加上0.5
+    # step*feat_shape 约等于img_shape，这使得网格点坐标介于0~1，放缩一下即可到图像大小
+    # 即相当于把所有格点都归一化0-1,用的时候乘以300即可恢复
     y = (y.astype(dtype) + offset) * step / img_shape[0]
     x = (x.astype(dtype) + offset) * step / img_shape[1]
+    # 注意 img_shape[0], img_shape[1] 一直都是300*300
 
     # Expand dims to support easy broadcasting.
+    # 在最后加一维度 比如 38*38 -> 38*38*1
     y = np.expand_dims(y, axis=-1)
     x = np.expand_dims(x, axis=-1)
+
 
     # Compute relative height and width.
     # Tries to follow the original implementation of SSD for the order.
@@ -609,38 +625,48 @@ def ssd_losses(logits, localisations,
         dtype = logits.dtype
 
         # Compute positive matching mask...
+        # 正例样本位置
         pmask = gscores > match_threshold
+        # pmask 是一堆 False, True 的矩阵
         fpmask = tf.cast(pmask, dtype)
+        # 获取重叠度 >0.5 的 default box 个数，即损失函数中的N
         n_positives = tf.reduce_sum(fpmask)
 
         # Hard negative mining...
+        # 转成 0 1 矩阵
         no_classes = tf.cast(pmask, tf.int32)
         predictions = slim.softmax(logits)
+        # 除了正例就是反例了吧
         nmask = tf.logical_and(tf.logical_not(pmask),
                                gscores > -0.5)
         fnmask = tf.cast(nmask, dtype)
+        #获得负例样本对应的概率
         nvalues = tf.where(nmask,
                            predictions[:, 0],
                            1. - fnmask)
         nvalues_flat = tf.reshape(nvalues, [-1])
         # Number of negative entries to select.
         max_neg_entries = tf.cast(tf.reduce_sum(fnmask), tf.int32)
+        #负例样本数目，保证正负样本数目为1:3
         n_neg = tf.cast(negative_ratio * n_positives, tf.int32) + batch_size
         n_neg = tf.minimum(n_neg, max_neg_entries)
 
+        # 挑选概率最小的负样本,当做是困难样本
         val, idxes = tf.nn.top_k(-nvalues_flat, k=n_neg)
-        max_hard_pred = -val[-1]
+        max_hard_pred = -val[-1]  # 概率都变成正的
         # Final negative mask.
         nmask = tf.logical_and(nmask, nvalues < max_hard_pred)
         fnmask = tf.cast(nmask, dtype)
 
         # Add cross-entropy loss.
+        # 正样本交叉熵损失函数
         with tf.name_scope('cross_entropy_pos'):
             loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
                                                                   labels=gclasses)
             loss = tf.div(tf.reduce_sum(loss * fpmask), batch_size, name='value')
             tf.losses.add_loss(loss)
 
+        # 负样本交叉熵损失函数
         with tf.name_scope('cross_entropy_neg'):
             loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
                                                                   labels=no_classes)
@@ -756,3 +782,26 @@ def ssd_losses_old(logits, localisations,
                 tf.add_to_collection('EXTRA_LOSSES', total_cross_neg)
                 tf.add_to_collection('EXTRA_LOSSES', total_cross)
                 tf.add_to_collection('EXTRA_LOSSES', total_loc)
+
+
+
+'''
+# 测试代码, 新建个文件放到 根目录里运行即可
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+from nets import ssd_vgg_300
+
+slim = tf.contrib.slim
+
+if __name__ == '__main__':
+    img = tf.placeholder(tf.float32, [1, 304, 304, 3])
+    with slim.arg_scope(ssd_vgg_300.ssd_arg_scope()):
+        ssd = ssd_vgg_300.SSDNet()
+    r = ssd.net(img)
+    ar = ssd_vgg_300.ssd_anchor_one_layer((300, 300), (38, 38), (21, 45), (2, 0.5), 8)
+    plt.scatter(ar[0], ar[1], c='r', marker='.')
+    plt.grid(True)
+    plt.show()
+
+'''
