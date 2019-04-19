@@ -442,12 +442,19 @@ def ssd_multibox_layer(inputs,
     loc_pred = slim.conv2d(net, num_loc_pred, [3, 3], activation_fn=None,
                            scope='conv_loc')
     loc_pred = custom_layers.channel_to_last(loc_pred)
+    # print("tensor_shape(loc_pred, 4): ", tensor_shape(loc_pred, 4))
+    # print(tensor_shape(loc_pred, 4)[:-1])
+    # loc_pred 的前三维度 再加上了 num_anchors, 4 两个维度.
+    # 即, NHW(num_anchors+4) ==> NHW,num_anchors,4
     loc_pred = tf.reshape(loc_pred,
                           tensor_shape(loc_pred, 4)[:-1]+[num_anchors, 4])
+    # print(loc_pred.shape)
+    # assert 0
     # Class prediction.
     num_cls_pred = num_anchors * num_classes
     cls_pred = slim.conv2d(net, num_cls_pred, [3, 3], activation_fn=None,
                            scope='conv_cls')
+    # ==> NHWC
     cls_pred = custom_layers.channel_to_last(cls_pred)
     cls_pred = tf.reshape(cls_pred,
                           tensor_shape(cls_pred, 4)[:-1]+[num_anchors, num_classes])
@@ -455,9 +462,9 @@ def ssd_multibox_layer(inputs,
 
 
 def ssd_net(inputs,
-            num_classes=SSDNet.default_params.num_classes,
-            feat_layers=SSDNet.default_params.feat_layers,
-            anchor_sizes=SSDNet.default_params.anchor_sizes,
+            num_classes=SSDNet.default_params.num_classes,  # 类别
+            feat_layers=SSDNet.default_params.feat_layers,  # 设定提取特征的层
+            anchor_sizes=SSDNet.default_params.anchor_sizes,  #
             anchor_ratios=SSDNet.default_params.anchor_ratios,
             normalizations=SSDNet.default_params.normalizations,
             is_training=True,
@@ -471,6 +478,7 @@ def ssd_net(inputs,
     #     inputs = tf.transpose(inputs, perm=(0, 3, 1, 2))
 
     # End_points collect relevant activations for external use.
+    # 前五个 Blocks，和 VGG16 相同, 并使用 end_points 来收集中间结果
     end_points = {}
     with tf.variable_scope(scope, 'ssd_300_vgg', [inputs], reuse=reuse):
         # Original VGG-16 blocks.

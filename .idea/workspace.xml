@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67127fbb-4959-485d-9101-466bce0b6412" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nets/np_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/nets/np_methods.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nets/ssd_vgg_300.py" beforeDir="false" afterPath="$PROJECT_DIR$/nets/ssd_vgg_300.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,26 +18,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-384">
-              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+            <state relative-caret-position="128">
+              <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nets/np_methods.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1404">
+              <caret line="266" column="48" selection-start-line="266" selection-start-column="42" selection-end-line="266" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-11448">
+              <caret line="32" column="22" lean-forward="true" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
               <folding>
-                <element signature="e#17#26#0" expanded="true" />
+                <element signature="e#731#761#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6382">
+              <caret line="447" column="9" selection-start-line="447" selection-start-column="9" selection-end-line="447" selection-end-column="9" />
+              <folding>
+                <element signature="e#2115#2126#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
+        <entry file="file://$PROJECT_DIR$/nets/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="771" column="13" lean-forward="true" selection-start-line="771" selection-start-column="13" selection-end-line="771" selection-end-column="13" />
-              <folding>
-                <element signature="e#2115#2126#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="352">
+              <caret line="159" column="31" selection-start-line="159" selection-start-column="27" selection-end-line="159" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -51,12 +81,20 @@
       <find>resize_image_bboxes_with_crop_or_pad</find>
       <find>tf_image_whitened</find>
       <find>ssd_vgg_300</find>
-      <find>ssd_anchors_all_layers</find>
       <find>ssd_size_bounds_to_values</find>
       <find>ssd_feat_shapes_from_net</find>
       <find>ssd_arg_scope</find>
       <find>size</find>
       <find>normal</find>
+      <find>ssd_anchors_all_layers</find>
+      <find>preprocess_for_eval</find>
+      <find>ssd_anchor_one_layer</find>
+      <find>net_shape</find>
+      <find>ssd_bboxes_select_layer</find>
+      <find>bboxes_jaccard</find>
+      <find>def ssd_net</find>
+      <find>ssd_multibox_layer</find>
+      <find>tensor_shape</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -67,6 +105,8 @@
       <list>
         <option value="$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/nets/np_methods.py" />
+        <option value="$PROJECT_DIR$/demo.py" />
         <option value="$PROJECT_DIR$/nets/ssd_vgg_300.py" />
       </list>
     </option>
@@ -83,7 +123,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -91,10 +130,16 @@
               <item name="SSD-Tensorflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="SSD-Tensorflow" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="SSD-Tensorflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SSD-Tensorflow" type="462c0819:PsiDirectoryNode" />
+              <item name="preprocessing" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -161,17 +206,20 @@
       <workItem from="1555315152854" duration="7737000" />
       <workItem from="1555331138674" duration="4479000" />
       <workItem from="1555342510887" duration="13652000" />
+      <workItem from="1555484523032" duration="9108000" />
+      <workItem from="1555515387073" duration="5546000" />
+      <workItem from="1555639965149" duration="6911000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26703000" />
+    <option name="totallyTimeSpent" value="48268000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" x="791" y="94" width="405" height="926" id="Project" order="0" visible="true" weight="0.15052573" />
+      <window_info content_ui="combo" x="791" y="94" width="405" height="926" id="Project" order="0" visible="true" weight="0.12672938" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -185,7 +233,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32937366" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.24406047" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -218,16 +266,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="771" column="13" lean-forward="true" selection-start-line="771" selection-start-column="13" selection-end-line="771" selection-end-column="13" />
-          <folding>
-            <element signature="e#2115#2126#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/preprocessing/tf_image.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="505">
@@ -235,22 +273,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="22" column="28" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/nets/np_methods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1404">
+          <caret line="266" column="48" selection-start-line="266" selection-start-column="42" selection-end-line="266" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocessing/ssd_vgg_preprocessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11448">
+          <caret line="32" column="22" lean-forward="true" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+          <folding>
+            <element signature="e#731#761#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-384">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+        <state relative-caret-position="128">
+          <caret line="4" column="22" lean-forward="true" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nets/custom_layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="159" column="31" selection-start-line="159" selection-start-column="27" selection-end-line="159" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nets/ssd_vgg_300.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6382">
+          <caret line="447" column="9" selection-start-line="447" selection-start-column="9" selection-end-line="447" selection-end-column="9" />
           <folding>
-            <element signature="e#17#26#0" expanded="true" />
+            <element signature="e#2115#2126#0" expanded="true" />
           </folding>
         </state>
       </provider>

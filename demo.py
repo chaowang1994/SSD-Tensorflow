@@ -1,21 +1,9 @@
 # coding: utf-8
-
-import os
-import math
-import random
-
-import numpy as np
-import tensorflow as tf
-import cv2
-
-slim = tf.contrib.slim
-
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-
 import sys
 sys.path.append('./')
-
+import tensorflow as tf
+slim = tf.contrib.slim
+import matplotlib.image as mpimg
 
 from nets import ssd_vgg_300, ssd_common, np_methods
 from preprocessing import ssd_vgg_preprocessing
@@ -29,16 +17,20 @@ isess = tf.InteractiveSession(config=config)
 
 
 # ## SSD 300 Model
-# 
-# The SSD 300 network takes 300x300 image inputs. In order to feed any image, the latter is resize to this input shape (i.e.`Resize.WARP_RESIZE`). Note that even though it may change the ratio width / height, the SSD model performs well on resized images (and it is the default behaviour in the original Caffe implementation).
-# 
-# SSD anchors correspond to the default bounding boxes encoded in the network. The SSD net output provides offset on the coordinates and dimensions of these anchors.
+# The SSD 300 network takes 300x300 image inputs.
+# In order to feed any image, the latter is resize to this input shape (i.e.`Resize.WARP_RESIZE`).
+# Note that even though it may change the ratio width / height,
+# the SSD model performs well on resized images
+# (and it is the default behaviour in the original Caffe implementation).
+# SSD anchors correspond to the default bounding boxes encoded in the network.
+# The SSD net output provides offset on the coordinates and dimensions of these anchors.
 
 # Input placeholder.
 net_shape = (300, 300)
 data_format = 'NHWC'
 img_input = tf.placeholder(tf.uint8, shape=(None, None, 3))
 # Evaluation pre-processing: resize to SSD net shape.
+# 预处理将输入图片大小改成 300x300，作为下一步的输入
 image_pre, labels_pre, bboxes_pre, bbox_img = ssd_vgg_preprocessing.preprocess_for_eval(
     img_input, None, None, net_shape, data_format, resize=ssd_vgg_preprocessing.Resize.WARP_RESIZE)
 image_4d = tf.expand_dims(image_pre, 0)
@@ -57,12 +49,14 @@ saver = tf.train.Saver()
 saver.restore(isess, ckpt_filename)
 
 # SSD default anchor boxes.
+# 计算各个特征层的 default boxes
 ssd_anchors = ssd_net.anchors(net_shape)
 
 
 # ## Post-processing pipeline
 # 
-# The SSD outputs need to be post-processed to provide proper detections. Namely, we follow these common steps:
+# The SSD outputs need to be post-processed to provide proper detections.
+# Namely, we follow these common steps:
 # 
 # * Select boxes above a classification threshold;
 # * Clip boxes to the image shape;
@@ -91,7 +85,8 @@ def process_image(img, select_threshold=0.5, nms_threshold=.45, net_shape=(300, 
 
 # Test on some demo image and visualize output.
 path = input("Please input image path: ")
-
+if not path:
+    path = 'demo/dog.jpg'
 img = mpimg.imread(path)
 rclasses, rscores, rbboxes =  process_image(img)
 print(rclasses, rscores, rbboxes)

@@ -66,17 +66,28 @@ def ssd_bboxes_select_layer(predictions_layer,
       classes, scores, bboxes: Numpy arrays...
     """
     # First decode localizations features if necessary.
-    if decode:
+    if decode:  # 解码成 ymin,xmin,ymax,xmax 的形式
         localizations_layer = ssd_bboxes_decode(localizations_layer, anchors_layer)
-
+    # 把box对应的值从 feature map中抽取出来
     # Reshape features to: Batches x N x N_labels | 4.
     p_shape = predictions_layer.shape
+    #print("p_shape: ", p_shape)
+    # p_shape: (1, 38, 38, 4, 21)
+
+    # 以第一层为例，这里的值为(1,38,38,4,21)单张图片, 4 这个存坐标, 21 存目标的概率
     batch_size = p_shape[0] if len(p_shape) == 5 else 1
     predictions_layer = np.reshape(predictions_layer,
                                    (batch_size, -1, p_shape[-1]))
+    #print("predictions_layer.shape: ", predictions_layer.shape)
+    # predictions_layer.shape: (1, 5776, 21)
+
     l_shape = localizations_layer.shape
+    #print("l_shape: ", l_shape)
+    # l_shape:  (1, 38, 38, 4, 4)
     localizations_layer = np.reshape(localizations_layer,
                                      (batch_size, -1, l_shape[-1]))
+    #print("localizations_layer: ", localizations_layer.shape)
+    # localizations_layer: (1, 5776, 4)
 
     # Boxes selection: use threshold or score > no-label criteria.
     if select_threshold is None or select_threshold == 0:
@@ -88,8 +99,15 @@ def ssd_bboxes_select_layer(predictions_layer,
         scores = scores[mask]
         bboxes = localizations_layer[mask]
     else:
-        sub_predictions = predictions_layer[:, :, 1:]
+        # 非背景的概率吧
+        sub_predictions = predictions_layer[:, :, 1:]  # (1, 5776, 21)
+        # print("sub_predictions shape", sub_predictions.shape)
+        # (1, 5776, 20)
         idxes = np.where(sub_predictions > select_threshold)
+        #for i in idxes:
+            # print("idxes====: ", i)
+            # print("idxes.shape=====: ", i.shape)
+        #assert 0
         classes = idxes[-1]+1
         scores = sub_predictions[idxes]
         bboxes = localizations_layer[idxes[:-1]]
@@ -114,6 +132,10 @@ def ssd_bboxes_select(predictions_net,
     l_bboxes = []
     # l_layers = []
     # l_idxes = []
+    # predictions_net 是预测的种类
+    # print("predictions_net: ", predictions_net)
+    # print("predictions_net type: ", type(predictions_net))
+
     for i in range(len(predictions_net)):
         classes, scores, bboxes = ssd_bboxes_select_layer(
             predictions_net[i], localizations_net[i], anchors_net[i],
@@ -143,8 +165,8 @@ def bboxes_sort(classes, scores, bboxes, top_k=400):
     #     idxes = np.argsort(-scores)
     #     inside = inside[idxes]
     #     idxes = np.concatenate([idxes[inside], idxes[~inside]])
-    idxes = np.argsort(-scores)
-    classes = classes[idxes][:top_k]
+    idxes = np.argsort(-scores)  # argsort() 返回数组值从小到大的索引值,-scores 正好是从大到小
+    classes = classes[idxes][:top_k]  # 选概率大的 topk
     scores = scores[idxes][:top_k]
     bboxes = bboxes[idxes][:top_k]
     return classes, scores, bboxes
@@ -153,14 +175,17 @@ def bboxes_sort(classes, scores, bboxes, top_k=400):
 def bboxes_clip(bbox_ref, bboxes):
     """Clip bounding boxes with respect to reference bbox.
     """
+    #print("-----: ", bbox_ref.shape)
+    #-----: (4,)
     bboxes = np.copy(bboxes)
-    bboxes = np.transpose(bboxes)
+    bboxes = np.transpose(bboxes)  # 转置变为列
     bbox_ref = np.transpose(bbox_ref)
     bboxes[0] = np.maximum(bboxes[0], bbox_ref[0])
     bboxes[1] = np.maximum(bboxes[1], bbox_ref[1])
     bboxes[2] = np.minimum(bboxes[2], bbox_ref[2])
     bboxes[3] = np.minimum(bboxes[3], bbox_ref[3])
     bboxes = np.transpose(bboxes)
+    # 求交叉部分??
     return bboxes
 
 
